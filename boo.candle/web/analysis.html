@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>boo.candle</title>
+
+	<script src="eel.js"></script>
+	<link rel="icon" type="image/png" href="images/icon.png">
+
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div id="page" class="authmenu">
+		<div class="analysisMenu">
+			<div id="PurchaseView" class="analysisTable"></div>
+			<div id="SaleView" class="analysisTable"></div>
+			<div id="ResView" class="analysisTable"></div>
+		</div>
+		<button class="center-button" onclick="back()">Назад</button>
+	</div>
+
+	<script type="text/javascript">
+		async function back() {
+			document.getElementById('page').innerHTML = `<div class="center-menu">
+			<img src="gif/load.gif">
+			</div>`;
+
+			await new Promise(r => setTimeout(r, 2000));
+			window.location.href = "main.html";
+		}
+		async function visual() {
+			let purchaseList = await eel.analysisPurchase()();
+			let saleList = await eel.analysisSale()();
+
+			let saleView = `<h4>Таблиця проданих товарів</h4>
+								<table>
+ 	 		 					<tr>
+    								<th>Товар</th>
+    								<th>Час продажу</th>
+    								<th>Прибуток</th>
+  								</tr>
+  								${itemsSale()}
+								</table>`;
+			function itemsSale() {
+				let resItems = '';
+				for (let step = 0; step < saleList.length; step++) {
+  							resItems += `<tr>
+  								<td>${saleList[step][1]}</td>
+  								<td>${saleList[step][2]}</td>
+  								<td>${saleList[step][3]} UAH</td>`;
+  								
+  				}
+  				console.log(resItems);
+  				return resItems;
+			};
+			
+			let purchaseView = `<h4>Таблиця закуплених матеріалів</h4>
+								<table>
+ 	 		 					<tr>
+    								<th>Матеріал</th>
+    								<th>Кількість</th>
+    								<th>Час закупівлі</th>
+    								<th>Ціна</th>
+  								</tr>
+  								${itemsPurchase()}
+								</table>`;
+			function itemsPurchase() {
+				let resItems = '';
+				for (let step = 0; step < purchaseList.length; step++) {
+  							resItems += `<tr>
+  								<td>${purchaseList[step][1]}</td>
+  								<td>${purchaseList[step][2]}</td>
+  								<td>${purchaseList[step][3]}</td>
+  								<td>${purchaseList[step][4]}</td>`;
+  								
+  				}
+  				return resItems;
+			};
+			let res = await eel.analytics()();
+
+			let resView = `<h4>Загальний підрахунок</h4>
+						<table>
+ 	 		 			<tr>
+    						<th>Кошти, витрачені на закупівлю</th>
+    						<th>Прибуток із продажу</th>
+    						<th>Чистий прибуток</th>
+  						</tr>
+  						<td>${res[0]}</td>
+  						<td>${res[1]}</td>
+  						<td>${res[2]}</td>
+						</table>`;
+
+
+			document.getElementById('PurchaseView').innerHTML = purchaseView;
+
+			document.getElementById('SaleView').innerHTML = saleView;
+			document.getElementById('ResView').innerHTML = resView;
+
+		}
+		visual();
+	</script>
+</body>
+</html>

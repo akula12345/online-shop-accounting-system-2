@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>boo.candle</title>
+
+	<script src="eel.js"></script>
+	<link rel="icon" type="image/png" href="images/icon.png">
+
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div id="page" class="authmenu">
+			<h1>МЕНЮ</h1>
+			<div class="catalogmenu">
+				<div class="card" onclick="purchase()">
+					<img src="images/purchase.png" alt="purchase" class="imagecard">
+					<h4>Облік закупки товару</h4>
+					<h5>Додайте інформацію про закупівлю товару</h5>
+				</div>
+				<div class="card" onclick="sale()">
+					<img src="images/sale.png" alt="sale" class="imagecard">
+					<h4>Облік проданного товару</h4>
+					<h5>Додайте інформацію про продаж товару</h5>
+				</div>
+				<div class="card" onclick="catalog()">
+					<img src="images/product.png" alt="product" class="imagecard">
+					<h4>Каталог товару</h4>
+					<h5>Дізнайтесь про наявність товару</h5>
+				</div>
+				<div class="card" onclick="analysis()">
+					<img src="images/analysis.png" alt="analysis" class="imagecard">
+					<h4>Аналітика</h4>
+					<h5>Дізнайтеся про свій дохід на основі інформації про закуплений та проданий товар</h5>
+				</div>
+			</div>
+	</div>
+	<script type="text/javascript">
+		async function purchase() {
+			document.getElementById('page').innerHTML = `<div class="center-menu">
+			<img src="gif/load.gif">
+			</div>`;
+
+			await new Promise(r => setTimeout(r, 2000));
+			window.location.href = "purchase.html";
+		}
+		async function sale() {
+			document.getElementById('page').innerHTML = `<div class="center-menu">
+			<img src="gif/load.gif">
+			</div>`;
+
+			await new Promise(r => setTimeout(r, 2000));
+			window.location.href = "sale.html";			
+		}
+		async function catalog() {
+			document.getElementById('page').innerHTML = `<div class="center-menu">
+			<img src="gif/load.gif">
+			</div>`;
+
+			await new Promise(r => setTimeout(r, 2000));
+			window.location.href = "catalog.html";			
+		}
+		async function analysis() {
+			document.getElementById('page').innerHTML = `<div class="center-menu">
+			<img src="gif/load.gif">
+			</div>`;
+
+			await new Promise(r => setTimeout(r, 2000));
+			window.location.href = "analysis.html";			
+		}	
+	</script>
+</body>
+</html>

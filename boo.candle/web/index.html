@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>boo.candle</title>
+
+	<script src="eel.js"></script>
+	<link rel="icon" type="image/png" href="images/icon.png">
+
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div id="page" class="authmenu">
+		<img src="images/icon.png" alt="logo" class="logo">
+		<h2>АВТОРИЗАЦІЯ</h2>
+		<h3>Введіть логін</h3>
+		<input id="login" type="text" placeholder="введіть сюди ваш логін" required="">
+		<h3>Введіть пароль</h3>
+		<input id="password" type="text" placeholder="введіть сюди ваш пароль" required="">
+		<button onclick="login()">Увійти</button>
+	</div>
+	<script type="text/javascript">
+		async function login() {
+			let login = document.getElementById('login').value;
+			let password = document.getElementById('password').value;
+
+			let res = await eel.auth(login, password)();
+			console.log(res);
+
+			if (res === 'Данні вірні!') {
+				document.getElementById('page').innerHTML = `<div class="center-menu">
+				<img src="gif/load.gif">
+				</div>`;
+
+				
+				await new Promise(r => setTimeout(r, 2000));
+				
+				window.location.href = "main.html";
+			}
+		}
+
+	</script>
+</body>
+</html>

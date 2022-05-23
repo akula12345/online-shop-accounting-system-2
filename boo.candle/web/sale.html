@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>boo.candle</title>
+
+	<script src="eel.js"></script>
+	<link rel="icon" type="image/png" href="images/icon.png">
+
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div id="page" class="authmenu">
+		<h5>Оберіть товар, який був продан</h5>
+		<div id="saleProduct"></div>
+		<h5 id="res"></h5>
+		<button onclick="submit()">Додати</button>
+		<button onclick="back()">Назад</button>
+	</div>
+	<script type="text/javascript">
+		async function back() {
+			document.getElementById('page').innerHTML = `<div class="center-menu">
+			<img src="gif/load.gif">
+			</div>`;
+
+			await new Promise(r => setTimeout(r, 2000));
+			window.location.href = "main.html";
+		}
+		async function visual() {
+			let catalog = await eel.catalog()();
+			console.log(catalog)
+			let catalogRes = '';
+			if (catalog.length === 0) {
+				catalogRes = `<h4>Каталог порожній</h4>`;
+			} else {
+				catalogRes = `
+							<select name="products" id="products">
+	  						${itemsCatalog()}
+							</select>`;
+			}
+			function itemsCatalog() {
+				let resItems = '';
+				for (let step = 0; step < catalog.length; step++) {
+	  				resItems += `<option value="${catalog[step][0]}">${catalog[step][1]}</option>`;	
+	  				}
+	  			return resItems;
+				}
+			document.getElementById('saleProduct').innerHTML = catalogRes;
+		}
+		async function submit() {
+			let product = document.getElementById('products').value;
+
+			await eel.saleProduct(product);
+			visual();
+		}
+		visual();
+
+	</script>
+</body>
+</html>

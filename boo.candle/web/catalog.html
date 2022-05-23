@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>boo.candle</title>
+
+	<script src="eel.js"></script>
+	<link rel="icon" type="image/png" href="images/icon.png">
+
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div id="page" class="authmenu">
+		<div class="catalogmenu">
+			<div id="catalogTable" class="catalogTable"></div>
+
+			<div class="addCatalogItem">		
+				<h3>Додайте товар до каталогу</h3>
+				<h4>Введіть назву товару</h4>
+				<input id="namep" type="text" required="">
+
+				<h4>Оберіть тип свічки</h4>
+				<select name="typep" id="typep">
+		  			<option value="Жіноче тіло">Жіноче тіло</option>
+		  			<option value="Чоловіче тіло">Чоловіче тіло</option>
+		  			<option value="Свічка у чаші (маленька)">Свічка у чаші (маленька)</option>
+		  			<option value="Свічка у чаші (велика)">Свічка у чаші (велика)</option>
+		  			<option value="Кругла">Кругла</option>
+		  			<option value="Квадрат">Квадрат</option>
+		  			<option value="Конус">Конус</option>
+				</select>
+
+				<h4>Оберіть матеріал свічки</h4>
+				<select name="materials" id="materials">
+		  			<option value="Бджолиний віск">Бджолиний віск</option>
+		  			<option value="Кокосовий віск">Кокосовий віск</option>
+		  			<option value="Соєвий віск">Соєвий віск</option>
+		  			<option value="Парафін">Парафін</option>
+		  			<option value="Барвники">Барвники</option>
+		  			<option value="Ефірні масла">Ефірні масла</option>
+				</select>
+
+				<h4>Оберіть запах свічки</h4>
+				<select name="smell" id="smell">
+		  			<option value="Кокос">Кокос</option>
+		  			<option value="Лаванда">Лаванда</option>
+		  			<option value="Шоколад">Шоколад</option>
+		  			<option value="Апельсин">Апельсин</option>
+		  			<option value="Лісові ягоди">Лісові ягоди</option>
+		  			<option value="Глінтвейн">Глінтвейн</option>
+		  			<option value="Троянда">Троянда</option>
+				</select>
+
+				<h4>Оберіть колір свічки</h4>
+				<select name="colour" id="colour">
+		  			<option value="Білий">Білий</option>
+		  			<option value="Чорний">Чорний</option>
+		  			<option value="Лавандовий">Лавандовий</option>
+		  			<option value="Блакитний">Блакитний</option>
+		  			<option value="Червоний">Червоний</option>
+		  			<option value="Рожевий">Рожевий</option>
+		  			<option value="Помаранчевий">Помаранчевий</option>
+		  			<option value="Бежевий">Бежевий</option>
+				</select>
+				<h5>Введіть ціну за товар</h5>
+				<input id="pricep" type="number" required="">
+				<h5 id="res"></h5>
+				<button onclick="add()">Додати</button>
+				<button onclick="back()">Назад</button>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		async function back() {
+			document.getElementById('page').innerHTML = `<div class="center-menu">
+			<img src="gif/load.gif">
+			</div>`;
+
+			await new Promise(r => setTimeout(r, 2000));
+			window.location.href = "main.html";
+		}
+		async function visual() {
+			let catalog = await eel.catalog()();
+			let catalogRes = '';
+			if (catalog.length === 0) {
+
+				catalogRes = `
+							<h4>Наявність товару</h4>
+							<table>
+	 	 		 			<tr>
+	    						<th>Товар</th>
+	    						<th>Тип свічки</th>
+	    						<th>Матеріал</th>
+	    						<th>Запах</th>
+	    						<th>Колір</th>
+	    						<th>Ціна</th>
+	    						<th>Дата додавання</th>
+	  						</tr>
+	  						</table>
+							<h4>Каталог порожній</h4>`;
+			} else {
+				catalogRes = `
+							<h1>Наявність товару</h1>
+							<table>
+	 	 		 			<tr>
+	    						<th>Товар</th>
+	    						<th>Тип свічки</th>
+	    						<th>Матеріал</th>
+	    						<th>Запах</th>
+	    						<th>Колір</th>
+	    						<th>Ціна</th>
+	    						<th>Дата додавання</th>
+	  						</tr>
+	  						${itemsCatalog()}
+							</table>`;
+			function itemsCatalog() {
+				let resItems = '';
+				for (let step = 0; step < catalog.length; step++) {
+	  				resItems += `<tr>
+	  							 <td>${catalog[step][1]}</td>
+	  							 <td>${catalog[step][2]}</td>
+	  							 <td>${catalog[step][3]}</td>
+	  							 <td>${catalog[step][4]}</td>
+	  							 <td>${catalog[step][5]}</td>
+	  							 <td>${catalog[step][7]}</td>
+	  							 <td>${catalog[step][6]}</td>
+	  							 `;					
+	  				}
+	  				return resItems;
+				}
+			}
+			document.getElementById('catalogTable').innerHTML = catalogRes;
+		}
+		async function add() {
+			let namep = document.getElementById('namep').value;
+			let typep = document.getElementById('typep').value;
+			let materials = document.getElementById('materials').value;
+			let smell = document.getElementById('smell').value;
+			let colour = document.getElementById('colour').value;
+			let pricep = document.getElementById('pricep').value;
+
+			await eel.addCatalogItem(namep, typep, materials, smell, colour, pricep)();
+			visual();
+		}
+		visual();
+	</script>
+</body>
+</html>
